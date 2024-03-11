@@ -9,7 +9,7 @@ import SearchMenu from "./SearchMenu";
 
 export default function SearchHeader() {
   return (
-    <header className="sticky top-0 left-0 ">
+    <header className="sticky top-0 left-0 bg-white">
       <div className="flex items-center gap-4 py-6 px-4 md:px-12 justify-between">
         <div className="flex w-full gap-4 md:gap-8 items-center">
           <Link href="/">

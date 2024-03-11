@@ -1,5 +1,22 @@
+import SearchWebResults from "@/components/search/SearchWebResults";
+
 const API_KEY = process.env.API_KEY;
 const CONTEXT_KEY = process.env.CONTEXT_KEY;
+
+export type ResultsType = {
+  searchInformation: {
+    formattedSearchTime: string;
+    formattedTotalResults: string;
+  };
+  items: {
+    title: string;
+    link: string;
+    displayLink: string;
+    htmlSnippet: string;
+    pagemap: { cse_thumbnail: { src: string }[] };
+  }[];
+};
+
 export default async function Web({
   searchParams,
 }: {
@@ -8,7 +25,7 @@ export default async function Web({
   const query = searchParams.searchTerm;
   const data = await searchInWeb(query);
 
-  if (!data?.length) {
+  if (!data?.items?.length) {
     return (
       <div className="mt-12 ml-4 lg:ml-32">
         <h2 className="text-lg">
@@ -24,13 +41,7 @@ export default async function Web({
     );
   }
 
-  return (
-    <div>
-      {data.map((item) => (
-        <h2 key={item.title}>{item.title}</h2>
-      ))}
-    </div>
-  );
+  return <SearchWebResults results={data} />;
 }
 
 async function searchInWeb(query: string) {
@@ -38,9 +49,36 @@ async function searchInWeb(query: string) {
     `https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CONTEXT_KEY}&q=${query}`
   );
   if (!res.ok) throw new Error("An error occured.");
-  const resData = await res.json();
+  const data = await res.json();
+  // console.log(data);
 
-  const data = resData.items;
-
-  return data;
+  return data as ResultsType;
 }
+
+/*
+
+queries: { request: [ [Object] ], nextPage: [ [Object] ] },
+context: { title: 'go-clone' },
+searchInformation: {
+    searchTime: 0.29606,
+    formattedSearchTime: '0.30',
+    totalResults: '8350000',
+    formattedTotalResults: '8,350,000'
+  },
+items: [    
+    {
+      kind: 'customsearch#result',
+      title: 'Comped Definition & Meaning - Merriam-Webster',
+      htmlTitle: '<b>Comped</b> Definition &amp; Meaning - Merriam-Webster',
+      link: 'https://www.merriam-webster.com/dictionary/comped',
+      displayLink: 'www.merriam-webster.com',
+      snippet: 'The meaning of COMPED is provided free of charge : complimentary. How to use comped in a sentence.',    
+      htmlSnippet: 'The meaning of <b>COMPED</b> is provided free of charge : complimentary. How to use <b>comped</b> in a sentence.',
+      cacheId: 'BZldh-WU-zAJ',
+      formattedUrl: 'https://www.merriam-webster.com/dictionary/comped',
+      htmlFormattedUrl: 'https://www.merriam-webster.com/dictionary/<b>comped</b>',
+      pagemap: { cse_thumbnail: [Array], metatags: [Array], cse_image: [Array] }
+    }
+  ]
+    
+*/
