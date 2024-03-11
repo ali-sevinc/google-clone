@@ -1,5 +1,7 @@
 import Link from "next/link";
 import { TbGridDots } from "react-icons/tb";
+import IconButton from "../ui/IconButton";
+import MainButton from "../ui/MainButton";
 
 export default function MainHeader() {
   return (
@@ -16,12 +18,10 @@ export default function MainHeader() {
       >
         Images
       </Link>
-      <button className="p-2 rounded-full text-2xl text-stone-600 hover:bg-stone-200 ">
+      <IconButton>
         <TbGridDots />
-      </button>
-      <button className="bg-blue-500 text-base text-stone-50 px-3 py-2 rounded hover:shadow-lg hover:bg-blue-600">
-        Sign in
-      </button>
+      </IconButton>
+      <MainButton>Sign in</MainButton>
     </header>
   );
 }

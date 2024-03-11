@@ -13,7 +13,7 @@ export default function Country() {
       const res = await fetch(`https://extreme-ip-lookup.com/json/?key=${key}`);
       const data = await res.json();
       if (!res.ok) return;
-      console.log(data);
+
       setCountry(data.country);
     }
     fetchCountry();
