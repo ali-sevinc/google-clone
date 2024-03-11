@@ -8,7 +8,7 @@ export default function SearchWebResults({
   results: ResultsType;
 }) {
   return (
-    <div className="mx-auto px-3 pb-28 md:pl-[12%] lg:pl-52 w-full">
+    <div className="mx-auto mt-4 px-3 pb-28 md:pl-[12%] lg:pl-52 w-full">
       <p className="text-sm text-stone-600 pb-5 pt-2">
         About {results.searchInformation.formattedTotalResults} results (
         {results.searchInformation.formattedSearchTime} seconds)

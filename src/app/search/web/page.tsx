@@ -56,7 +56,6 @@ async function searchInWeb(query: string) {
 }
 
 /*
-
 queries: { request: [ [Object] ], nextPage: [ [Object] ] },
 context: { title: 'go-clone' },
 searchInformation: {
