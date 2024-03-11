@@ -31,7 +31,7 @@ export default function WebResultItem({ result }: { result: ResultType }) {
           {result.title}
         </h2>
       </Link>
-      <p>{Parser(result.htmlSnippet)}</p>
+      {result?.htmlSnippet && <p>{Parser?.(result?.htmlSnippet)}</p>}
     </li>
   );
 }

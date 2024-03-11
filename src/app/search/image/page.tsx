@@ -14,10 +14,11 @@ type ResultType = {
 export default async function Image({
   searchParams,
 }: {
-  searchParams: { searchTerm: string };
+  searchParams: { searchTerm: string; start: string };
 }) {
+  const start = searchParams.start || "1";
   const query = searchParams.searchTerm;
-  const data = await searchInImages(query);
+  const data = await searchInImages(query, start);
 
   if (!data?.length) {
     return (
@@ -38,9 +39,9 @@ export default async function Image({
   return <SearchImageResults results={data} />;
 }
 
-async function searchInImages(query: string) {
+async function searchInImages(query: string, num: string) {
   const res = await fetch(
-    `https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CONTEXT_KEY}&q=${query}&searchType=image`
+    `https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CONTEXT_KEY}&q=${query}&searchType=image&start=${num}`
   );
   if (!res.ok) throw new Error("An error occured.");
   const resData = await res.json();

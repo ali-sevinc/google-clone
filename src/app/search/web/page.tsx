@@ -20,10 +20,11 @@ export type ResultsType = {
 export default async function Web({
   searchParams,
 }: {
-  searchParams: { searchTerm: string };
+  searchParams: { searchTerm: string; start: string };
 }) {
+  const start = searchParams.start || "1";
   const query = searchParams.searchTerm;
-  const data = await searchInWeb(query);
+  const data = await searchInWeb(query, start);
 
   if (!data?.items?.length) {
     return (
@@ -44,9 +45,9 @@ export default async function Web({
   return <SearchWebResults results={data} />;
 }
 
-async function searchInWeb(query: string) {
+async function searchInWeb(query: string, num: string) {
   const res = await fetch(
-    `https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CONTEXT_KEY}&q=${query}`
+    `https://www.googleapis.com/customsearch/v1?key=${API_KEY}&cx=${CONTEXT_KEY}&q=${query}&start=${num}`
   );
   if (!res.ok) throw new Error("An error occured.");
   const data = await res.json();
@@ -54,30 +55,3 @@ async function searchInWeb(query: string) {
 
   return data as ResultsType;
 }
-
-/*
-queries: { request: [ [Object] ], nextPage: [ [Object] ] },
-context: { title: 'go-clone' },
-searchInformation: {
-    searchTime: 0.29606,
-    formattedSearchTime: '0.30',
-    totalResults: '8350000',
-    formattedTotalResults: '8,350,000'
-  },
-items: [    
-    {
-      kind: 'customsearch#result',
-      title: 'Comped Definition & Meaning - Merriam-Webster',
-      htmlTitle: '<b>Comped</b> Definition &amp; Meaning - Merriam-Webster',
-      link: 'https://www.merriam-webster.com/dictionary/comped',
-      displayLink: 'www.merriam-webster.com',
-      snippet: 'The meaning of COMPED is provided free of charge : complimentary. How to use comped in a sentence.',    
-      htmlSnippet: 'The meaning of <b>COMPED</b> is provided free of charge : complimentary. How to use <b>comped</b> in a sentence.',
-      cacheId: 'BZldh-WU-zAJ',
-      formattedUrl: 'https://www.merriam-webster.com/dictionary/comped',
-      htmlFormattedUrl: 'https://www.merriam-webster.com/dictionary/<b>comped</b>',
-      pagemap: { cse_thumbnail: [Array], metatags: [Array], cse_image: [Array] }
-    }
-  ]
-    
-*/
