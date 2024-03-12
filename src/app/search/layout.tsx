@@ -1,11 +1,11 @@
 import SearchHeader from "@/components/search/SearchHeader";
-import { ReactNode } from "react";
+import { ReactNode, Suspense } from "react";
 
 export default function layout({ children }: { children: ReactNode }) {
   return (
     <div>
       <SearchHeader />
-      {children}
+      <Suspense>{children}</Suspense>
     </div>
   );
 }

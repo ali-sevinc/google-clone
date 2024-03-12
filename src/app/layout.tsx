@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Footer from "@/components/layout/Footer";
+import { Suspense } from "react";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -21,7 +22,7 @@ export default function RootLayout({
         <link rel="icon" href="/icon.png" sizes="any" />
       </head>
       <body className={`${inter.className} relative min-h-screen`}>
-        {children}
+        <Suspense>{children}</Suspense>
         <Footer />
       </body>
     </html>
